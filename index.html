@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Freelance Escrow & Smart Payment Platform</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        
+        <!-- Header: โลโก้ และ ปุ่ม Connect Wallet ด้านขวา -->
+        <header class="app-header">
+            <div class="logo-area">
+                <h1>Freelance Escrow & Smart Payment Platform</h1>
+                <p>Decentralized Smart Payment Platform</p>
+            </div>
+            <div class="wallet-area">
+                <button id="connectWalletBtn" class="btn-primary connect-btn">Connect Wallet</button>
+                <p id="walletAddress" class="status-text text-right">Not Connected</p>
+            </div>
+        </header>
+
+        <!-- แบ่ง Grid ซ้าย-ขวา -->
+        <main class="dashboard-grid">
+            
+            <!-- คอลัมน์ซ้าย: สร้างงาน & แอดมิน -->
+            <div class="grid-column">
+                <section class="card">
+                    <h2>สร้างข้อตกลงการจ้างงาน (Employer)</h2>
+                    <div class="form-group">
+                        <input type="text" id="freelancerAddress" placeholder="Wallet Address ของฟรีแลนซ์">
+                        <input type="text" id="projectName" placeholder="ชื่อโครงการ">
+                        <input type="text" id="jobDetails" placeholder="รายละเอียดงาน">
+                        <input type="number" id="wage" placeholder="ค่าจ้าง (ETH)">
+                        <input type="number" id="duration" placeholder="ระยะเวลาทำงาน (วัน)">
+                        <button id="createJobBtn" class="btn-primary">สร้างข้อตกลง (Create Job)</button>
+                    </div>
+                </section>
+
+                <section class="card admin-card">
+                    <h2>แผงควบคุม (Admin Panel)</h2>
+                    <p class="status-text" style="margin-top: 0; margin-bottom: 15px;">*สำหรับ Admin ตัดสินข้อพิพาท</p>
+                    <div class="form-group">
+                        <input type="number" id="adminJobId" placeholder="ระบุ Job ID">
+                        <div class="actions" style="margin-top: 5px;">
+                            <button id="resolvePayFreelancerBtn" class="btn-success">ให้ Freelancer ชนะ (จ่ายเงิน)</button>
+                            <button id="resolveRefundBtn" class="btn-danger">ให้ Employer ชนะ (คืนเงิน)</button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- คอลัมน์ขวา: จัดการงาน & ติดตามสถานะ -->
+            <div class="grid-column">
+                <section class="card">
+                    <h2>จัดการสถานะงาน (Job Management)</h2>
+                    <div class="form-group">
+                        <input type="number" id="jobId" placeholder="ระบุ Job ID เพื่อจัดการ (เช่น 1)">
+                        
+                        <div class="actions">
+                            <button id="depositBtn" class="btn-warning">ฝากเงินค่าจ้าง (Employer)</button>
+                        </div>
+                        
+                        <div class="actions">
+                            <input type="text" id="workProof" placeholder="URL หรือ Hash ผลงาน">
+                            <button id="submitWorkBtn" class="btn-info">ส่งมอบงาน (Freelancer)</button>
+                        </div>
+
+                        <div class="actions">
+                            <button id="approveBtn" class="btn-success">อนุมัติและจ่ายเงิน (Employer)</button>
+                            <button id="disputeBtn" class="btn-danger">แจ้งข้อพิพาท</button>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="card tracking-card">
+                    <h2>ติดตามสถานะธุรกรรม (Tracking)</h2>
+                    <div class="form-group flex-row">
+                        <input type="number" id="trackJobId" placeholder="ระบุ Job ID">
+                        <button id="trackBtn" class="btn-secondary">ค้นหา</button>
+                    </div>
+                    
+                    <div id="jobStatusDisplay" class="status-box" style="display: none;">
+                        <p><strong>ชื่อโครงการ:</strong> <span id="dispProjectName"></span></p>
+                        <p><strong>ผู้ว่าจ้าง:</strong> <span id="dispEmployer" class="address-text"></span></p>
+                        <p><strong>ฟรีแลนซ์:</strong> <span id="dispFreelancer" class="address-text"></span></p>
+                        <p><strong>ค่าจ้าง:</strong> <span id="dispWage"></span> ETH</p>
+                        <p><strong>สถานะปัจจุบัน:</strong> <span id="dispState" class="highlight-text"></span></p>
+                        <p><strong>หลักฐานงาน:</strong> <span id="dispWorkProof"></span></p>
+                    </div>
+                </section>
+            </div>
+
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
